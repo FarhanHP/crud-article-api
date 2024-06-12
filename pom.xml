@@ -11,9 +11,15 @@
 	<groupId>com.farhanhp</groupId>
 	<artifactId>crud-article-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>crud-article-api</name>
+    <packaging>pom</packaging>
+    <name>crud-article-api</name>
 	<description>CRUD Article API</description>
-	<properties>
+    <modules>
+        <module>crud-article-api-app</module>
+		<module>crud-article-api-controllers</module>
+		<module>crud-article-api-models</module>
+	</modules>
+    <properties>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
