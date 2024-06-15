@@ -1,6 +1,24 @@
 package com.farhanhp.crud.article.api.controllers;
 
-import com.farhanhp.crud.article.api.models.web.request.CreateArticleRequest;
+import com.farhanhp.crud.article.api.commands.CommandExecutor;
+import com.farhanhp.crud.article.api.commands.CreateArticleCommand;
+import com.farhanhp.crud.article.api.commands.DeleteArticleCommand;
+import com.farhanhp.crud.article.api.commands.EditArticleCommand;
+import com.farhanhp.crud.article.api.commands.GetArticleCommand;
+import com.farhanhp.crud.article.api.commands.GetArticleEditHistoriesCommand;
+import com.farhanhp.crud.article.api.commands.GetArticlesCommand;
+import com.farhanhp.crud.article.api.helpers.ResponseHelper;
+import com.farhanhp.crud.article.api.models.web.request.EditArticleRequest;
+import com.farhanhp.crud.article.api.models.web.request.GetArticleEditHistoriesRequest;
+import com.farhanhp.crud.article.api.models.web.request.PaginationRequest;
+import com.farhanhp.crud.article.api.models.web.request.UpsertArticleRequest;
+import com.farhanhp.crud.article.api.models.web.request.DeleteArticleRequest;
+import com.farhanhp.crud.article.api.models.web.response.ArticleEditHistoryResponse;
+import com.farhanhp.crud.article.api.models.web.response.CreateArticleResponse;
+import com.farhanhp.crud.article.api.models.web.response.GetArticleResponse;
+import com.farhanhp.crud.article.api.models.web.response.WebResponses;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,50 +36,81 @@ import com.farhanhp.crud.article.api.models.web.response.WebResponse;
 
 @RestController
 @RequestMapping(value = "/api/article", produces = MediaType.APPLICATION_JSON_VALUE)
+@AllArgsConstructor
 public class ArticleController {
 
-  @PostMapping(value = "/create")
-  public Mono<WebResponse<Object>> createArticle(@RequestBody CreateArticleRequest request) {
+  private final CommandExecutor executor;
 
-    return Mono.just(WebResponse.builder()
-        .code(200)
-        .status("OK")
-        .build())
+  private final ResponseHelper responseHelper;
+
+  @PostMapping(value = "/create")
+  public Mono<WebResponse<CreateArticleResponse>> createArticle(
+      @RequestBody @Valid UpsertArticleRequest request) {
+
+    return executor.execute(CreateArticleCommand.class, request)
+        .map(responseHelper::createSuccessWebResponse)
         .subscribeOn(Schedulers.parallel());
   }
 
   @GetMapping(value = "/get")
-  public Mono<WebResponse<Object>> getArticles(
-      @RequestParam int startPosition,
-      @RequestParam int limit) {
+  public Mono<WebResponses<GetArticleResponse>> getArticles(
+      @RequestParam int pageNumber, @RequestParam int pageSize) {
 
-    return Mono.just(WebResponse.builder()
-        .code(200)
-        .status("OK")
-        .build())
+    return executor.execute(GetArticlesCommand.class, PaginationRequest.builder()
+            .pageNumber(pageNumber)
+            .pageSize(pageSize)
+            .build())
+        .map(responseHelper::createSuccessWebResponse)
         .subscribeOn(Schedulers.parallel());
   }
 
-  @PutMapping(value = "/{articleId}/edit")
-  public Mono<WebResponse<Object>> editArticle(
-      @PathVariable String articleId,
-      @RequestBody CreateArticleRequest request) {
+  @GetMapping(value = "/{articleWebId}/get")
+  public Mono<WebResponse<GetArticleResponse>> getArticle(
+      @PathVariable String articleWebId) {
 
-    return Mono.just(WebResponse.builder()
-        .code(200)
-        .status("OK")
-        .build())
+    return executor.execute(GetArticleCommand.class, articleWebId)
+        .map(responseHelper::createSuccessWebResponse)
         .subscribeOn(Schedulers.parallel());
   }
 
-  @DeleteMapping(value = "/{articleId}/delete")
-  public Mono<WebResponse<Object>> deleteArticle(
-      @PathVariable String articleId) {
+  @GetMapping(value = "/{articleWebId}/getEditHistories")
+  public Mono<WebResponses<ArticleEditHistoryResponse>> getArticleEditHistories(
+      @PathVariable String articleWebId, @RequestParam int pageNumber, @RequestParam int pageSize) {
 
-    return Mono.just(WebResponse.builder()
-        .code(200)
-        .status("OK")
-        .build())
+    return executor.execute(GetArticleEditHistoriesCommand.class,
+            GetArticleEditHistoriesRequest.builder()
+                .articleWebId(articleWebId)
+                .paginationRequest(PaginationRequest.builder()
+                    .pageNumber(pageNumber)
+                    .pageSize(pageSize)
+                    .build())
+                .build())
+        .map(responseHelper::createSuccessWebResponse)
+        .subscribeOn(Schedulers.parallel());
+  }
+
+  @PutMapping(value = "/{articleWebId}/edit")
+  public Mono<WebResponse<Boolean>> editArticle(
+      @PathVariable String articleWebId,
+      @RequestBody @Valid UpsertArticleRequest request) {
+
+    return executor.execute(EditArticleCommand.class, EditArticleRequest.builder()
+            .articleWebId(articleWebId)
+            .body(request.getBody())
+            .title(request.getTitle())
+            .build())
+        .map(responseHelper::createSuccessWebResponse)
+        .subscribeOn(Schedulers.parallel());
+  }
+
+  @DeleteMapping(value = "/{articleWebId}/delete")
+  public Mono<WebResponse<Boolean>> deleteArticle(
+      @PathVariable String articleWebId) {
+
+    return executor.execute(DeleteArticleCommand.class, DeleteArticleRequest.builder()
+            .articleWebId(articleWebId)
+            .build())
+        .map(responseHelper::createSuccessWebResponse)
         .subscribeOn(Schedulers.parallel());
   }
 }

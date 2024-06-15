@@ -5,11 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class EditArticleRequest {
+public class PaginationRequest {
 
-  private String articleWebId;
-
-  private String title;
-
-  private String body;
+  private int pageNumber;
+  private int pageSize;
 }

@@ -23,6 +23,16 @@
             <artifactId>crud-article-api-controllers</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.farhanhp</groupId>
+            <artifactId>crud-article-api-commands-impl</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.farhanhp</groupId>
+            <artifactId>crud-article-api-helpers-impl</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

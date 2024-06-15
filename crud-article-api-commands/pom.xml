@@ -9,29 +9,19 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>crud-article-api-controllers</artifactId>
+  <artifactId>crud-article-api-commands</artifactId>
 
   <properties>
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
   <dependencies>
     <dependency>
       <groupId>com.farhanhp</groupId>
       <artifactId>crud-article-api-models</artifactId>
       <version>0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>com.farhanhp</groupId>
-      <artifactId>crud-article-api-commands-impl</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>com.farhanhp</groupId>
-      <artifactId>crud-article-api-helpers-impl</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 

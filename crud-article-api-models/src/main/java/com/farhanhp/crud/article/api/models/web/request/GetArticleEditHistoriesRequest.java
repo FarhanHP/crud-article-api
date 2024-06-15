@@ -5,11 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class EditArticleRequest {
+public class GetArticleEditHistoriesRequest {
 
   private String articleWebId;
-
-  private String title;
-
-  private String body;
+  private PaginationRequest paginationRequest;
 }

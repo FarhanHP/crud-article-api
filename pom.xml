@@ -15,11 +15,15 @@
     <name>crud-article-api</name>
 	<description>CRUD Article API</description>
     <modules>
-        <module>crud-article-api-app</module>
-		<module>crud-article-api-controllers</module>
-		<module>crud-article-api-models</module>
-		<module>crud-article-api-repositories</module>
-	</modules>
+			<module>crud-article-api-app</module>
+			<module>crud-article-api-controllers</module>
+			<module>crud-article-api-models</module>
+			<module>crud-article-api-repositories</module>
+      <module>crud-article-api-commands</module>
+			<module>crud-article-api-commands-impl</module>
+      <module>crud-article-api-helpers</module>
+			<module>crud-article-api-helpers-impl</module>
+		</modules>
     <properties>
 		<java.version>17</java.version>
 	</properties>
@@ -47,6 +51,14 @@
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 	</dependencies>
 

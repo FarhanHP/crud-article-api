@@ -1,17 +1,15 @@
 package com.farhanhp.crud.article.api.models.web.response;
 
-import lombok.AllArgsConstructor;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @Builder
-@NoArgsConstructor
-public class WebResponse<T> {
+public class WebResponses<T> {
 
   private Integer code;
   private String status;
-  private T data;
+  private List<T> data;
+  private PaginationResponse pagination;
 }

@@ -5,11 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class EditArticleRequest {
+public class DeleteArticleRequest {
 
   private String articleWebId;
-
-  private String title;
-
-  private String body;
 }
