@@ -20,6 +20,7 @@ import com.farhanhp.crud.article.api.models.web.response.WebResponses;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ import com.farhanhp.crud.article.api.models.web.response.WebResponse;
 @RestController
 @RequestMapping(value = "/api/article", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
+@CrossOrigin
 public class ArticleController {
 
   private final CommandExecutor executor;
