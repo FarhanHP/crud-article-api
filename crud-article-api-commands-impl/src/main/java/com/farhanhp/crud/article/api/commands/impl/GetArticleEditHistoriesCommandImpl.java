@@ -36,8 +36,9 @@ public class GetArticleEditHistoriesCommandImpl implements GetArticleEditHistori
       GetArticleEditHistoriesRequest request) {
 
     return executor.execute(GetArticleDocumentByWebId.class, request.getArticleWebId())
-        .flatMap(articleDocument -> getHistories(articleDocument.getId(), request.getPaginationRequest()))
-        .zipWith(articleEditHistoryRepository.count())
+        .flatMap(articleDocument ->
+            Mono.zip(getHistories(articleDocument.getId(), request.getPaginationRequest()),
+                articleEditHistoryRepository.countByArticleId(articleDocument.getId())))
         .map(tuple -> toPairResponse(request.getPaginationRequest(), tuple));
   }
 

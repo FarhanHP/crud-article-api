@@ -12,4 +12,6 @@ public interface ArticleEditHistoryRepository extends ReactiveMongoRepository<Ar
   Mono<Void> deleteByArticleId(ObjectId articleId);
 
   Flux<ArticleEditHistoryDocument> findByArticleId(ObjectId articleId, Pageable pageable);
+
+  Mono<Long> countByArticleId(ObjectId articleId);
 }

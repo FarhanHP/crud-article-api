@@ -59,7 +59,6 @@ public class ResponseHelperImpl implements ResponseHelper {
 
   private boolean isHasNextPage(Long collectionSize, PaginationRequest request) {
 
-    return Math.ceil(Double.valueOf(collectionSize) / (double) request.getPageSize()) - 1
-        > request.getPageNumber();
+    return collectionSize > (long) (request.getPageNumber() + 1) * request.getPageSize();
   }
 }
